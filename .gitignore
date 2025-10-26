@@ -1,0 +1,37 @@
+########################################
+# BUILD / RUNTIME
+########################################
+target/
+*.log
+
+########################################
+# IDE / SISTEMA
+########################################
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+*.swp
+.DS_Store
+Thumbs.db
+
+########################################
+# ENV / SECRETOS
+########################################
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+.env.docker
+.env.local
+
+########################################
+# DOCKER COSAS LOCALES
+########################################
+db-init/
+mysql-data/
