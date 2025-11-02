@@ -94,12 +94,21 @@ public class AuthController {
     }
     //endregion
 
+
     //region Paso 1 - Pedir código de recuperación
+    public record VerifyCodeRequest(String code) {}
+    public record VerifyCodeResponse(String message, String username) {}
+    public record RecoveryRequest(String email) {}
     @PostMapping("/recovery")
-    public ResponseEntity<?> iniciarRecuperacion(@RequestParam String email) {
-        usuarioService.enviarCodigoRecuperacion(email);             // delega
-        return ResponseEntity.ok(Map.of("message",
-                "Si el mail existe recibirá un código de recuperación."));
+    public ResponseEntity<?> iniciarRecuperacion(@RequestBody RecoveryRequest body) {
+        try {
+            usuarioService.enviarCodigoRecuperacion(body.email());
+        } catch (ResponseStatusException ex) {
+            if (ex.getStatusCode().value() != 404) throw ex; // no revelar existencia del mail
+        }
+        return ResponseEntity.ok(
+                Map.of("message","Si el mail existe recibirá un código de recuperación.")
+        );
     }
     //endregion
 
